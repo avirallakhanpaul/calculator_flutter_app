@@ -12,18 +12,19 @@ class CalcExpressionProvider extends ChangeNotifier {
 
   void appendQuestion(String key) { // For all Numbers
 
-    if(key == "()") {
-      if(!isBracket) { // No Bracket
-        key = "(";
-        isBracket = true;
-      } else { // Bracket
-        key = ")";
-        isBracket = false;
-      }
-    }
+    // if(key == "()") {
+    //   if(!isBracket) { // No Bracket
+    //     key = "(";
+    //     isBracket = true;
+    //   } else { // Bracket
+    //     key = ")";
+    //     isBracket = false;
+    //   }
+    // }
 
     if(answer != "" && flag) {
       question = answer + key;
+      answer = "";
       flag = false;
     } else {
       question = question + key;

@@ -1,7 +1,5 @@
 import "package:flutter/material.dart";
 
-import '../../../custom/custom_colors.dart';
-
 class Button extends StatelessWidget {
 
   final Color btnColor;
@@ -16,8 +14,8 @@ class Button extends StatelessWidget {
   Button({
     this.btnColor = Colors.transparent,
     this.btnText,
-    this.btnTextSize = 32.0,
-    this.btnTextColor = secondaryBlack,
+    this.btnTextSize = 30.0,
+    this.btnTextColor,
     this.btnIcon = "",
     this.isEqualButton = false,
     this.isTapped,
@@ -29,16 +27,18 @@ class Button extends StatelessWidget {
 
   final textTheme = Theme.of(context).textTheme;
 
-    return FlatButton(
+    return TextButton(
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.all(0.0),
+        backgroundColor: btnColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: isEqualButton
+          ? BorderRadius.circular(10)
+          : BorderRadius.circular(10),
+        ),
+      ),
       onPressed: isTapped,
       onLongPress: isLongTapped,
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      color: btnColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: isEqualButton
-        ? BorderRadius.circular(10)
-        : BorderRadius.circular(100),
-      ),
       child: Align(
         alignment: Alignment.center,
         child: btnIcon != ""

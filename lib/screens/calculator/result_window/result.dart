@@ -23,6 +23,7 @@ class _ResultState extends State<Result> {
         horizontal: 20,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
@@ -30,7 +31,7 @@ class _ResultState extends State<Result> {
             calcProvider.question,
             style: TextStyle(
               fontSize: 32,
-              color: secondaryBlack,
+              color: lightSecondaryBlack,
             ),
           ),
           calcProvider.answer == "" 
@@ -39,7 +40,7 @@ class _ResultState extends State<Result> {
             calcProvider.answer,
             style: TextStyle(
               fontSize: 42,
-              color: primaryBlue,
+              color: lightPrimaryBlue,
             ),
           ),
         ],
