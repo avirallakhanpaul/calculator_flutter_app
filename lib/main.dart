@@ -1,12 +1,12 @@
-import 'package:calculator_app/providers/currency_calculator_provider.dart';
-import 'package:calculator_app/screens/country_list/country_list_screen.dart';
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:provider/provider.dart";
 
+import 'providers/currency_calculator_provider.dart';
 import 'providers/country_list_provider.dart';
 import 'providers/calc_expression_provider.dart';
 import 'providers/theme_provider.dart';
+import 'screens/country_list/country_list_screen.dart';
 import 'screens/currency_converter/currency_converter_screen.dart';
 import 'screens/calculator/calculator_screen.dart';
 import 'root_page.dart';

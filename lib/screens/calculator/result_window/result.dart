@@ -1,3 +1,4 @@
+import 'package:calculator_app/providers/theme_provider.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,7 @@ class _ResultState extends State<Result> {
   Widget build(BuildContext context) {
 
     final calcProvider = Provider.of<CalcExpressionProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -31,7 +33,9 @@ class _ResultState extends State<Result> {
             calcProvider.question,
             style: TextStyle(
               fontSize: 32,
-              color: lightSecondaryBlack,
+              color: themeProvider.isDarkTheme
+              ? darkSecondaryGrey
+              : lightSecondaryBlack,
             ),
           ),
           calcProvider.answer == "" 

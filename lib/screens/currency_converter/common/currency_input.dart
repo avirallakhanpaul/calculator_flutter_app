@@ -1,16 +1,14 @@
-import 'package:calculator_app/providers/country_list_provider.dart';
-import 'package:calculator_app/providers/currency_calculator_provider.dart';
-import 'package:calculator_app/screens/country_list/country_list_screen.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
+import '../../../providers/currency_calculator_provider.dart';
+import '../../../providers/theme_provider.dart';
 import '../../../models/country.dart';
 import '../../../custom/custom_colors.dart';
-import '../../../providers/theme_provider.dart';
+import '../../country_list/country_list_screen.dart';
 
 class CurrencyInput extends StatefulWidget {
 
-  // final Country country;
   final bool isDesiredCurr;
   final bool isFromCountry;
 
@@ -36,11 +34,11 @@ class _CurrencyInputState extends State<CurrencyInput> {
   Widget build(BuildContext context) {
 
     final currencyCalculatorProvider = Provider.of<CurrencyCalculatorProvider>(context);
-    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
-    // final countryProvider = Country
+    final themeProvider = Provider.of<ThemeProvider>(context);
     final Size mediaQuerySize = MediaQuery.of(context).size;
 
     Color textColor = Colors.white;
+    // ignore: unused_local_variable
     Color borderColor = darkPrimaryBlue;
 
     if(!themeProvider.isDarkTheme && !widget.isDesiredCurr) {
@@ -70,7 +68,7 @@ class _CurrencyInputState extends State<CurrencyInput> {
           width: mediaQuerySize.width * 0.4,
           child: InkWell(
             onTap: () async {
-              Navigator.of(context).pushNamed(
+              Navigator.of(context).pushReplacementNamed(
                 CountryListScreen.routeName,
                 arguments: widget.isFromCountry,
               );
@@ -132,64 +130,72 @@ class _CurrencyInputState extends State<CurrencyInput> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              Expanded(
-                child: TextField(
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  // onChanged: (_) {
-                  //   print(_currencyTextController.text);
-                  // },
-                  onSubmitted: (val) {
-                    print("Submitted Val: $val");
-                  },
-                  onEditingComplete: () {
-                    print("Editing Complete: ${_currencyTextController.text}");
-                  },
-                  focusNode: FocusNode(
-                    // canRequestFocus: false,
-                  ),
-                  controller: _currencyTextController,
-                  maxLines: 1,
-                  showCursor: true,
-                  style: TextStyle(
-                    fontFamily: "Viga",
-                    fontSize: 48,
-                    color: textColor,
-                  ),
-                  decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
+              Consumer<CurrencyCalculatorProvider>(
+                builder: (ctx, currCalc, child) {
+                  if(widget.isDesiredCurr) {
+                    _currencyTextController.text = currCalc.value;
+                  } else {
+                    _currencyTextController.text = currCalc.fromVal;
+                  }
+                  return Expanded(
+                    child: TextField(
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      onChanged: (_) {
+                        print(_currencyTextController.text);
+                        currCalc.setFromVal(_currencyTextController.text);
+                      },
+                      onSubmitted: (val) {
+                        print("Submitted Val: $val");
+                        currCalc.calculateConversionValue();
+                      },
+                      readOnly: widget.isDesiredCurr
+                      ? true
+                      : false,
+                      controller: _currencyTextController,
+                      maxLines: 1,
+                      showCursor: true,
+                      style: TextStyle(
+                        fontFamily: "Viga",
+                        fontSize: 48,
                         color: textColor,
-                        width: 2.5,
+                      ),
+                      decoration: InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: textColor,
+                            width: 2.5,
+                          ),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: textColor,
+                            width: 2.5,
+                          ),
+                        ),
                       ),
                     ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: textColor,
-                        width: 2.5,
-                      ),
-                    ),
-                  ),
-                ),
+                  );
+                }
               ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  primary: themeProvider.isDarkTheme
-                  ? darkPrimaryBlue
-                  : lightPrimaryBlue,
-                  shape: CircleBorder(
-                    side: BorderSide(
-                      color: borderColor,
-                      width: 2.5,
-                    ),
-                  ),
-                ),
-                onPressed: () {},
-                child: Icon(
-                  Icons.check,
-                  size: 25,
-                  color: textColor,
-                ),
-              ),
+              // TextButton(
+              //   style: TextButton.styleFrom(
+              //     primary: themeProvider.isDarkTheme
+              //     ? darkPrimaryBlue
+              //     : lightPrimaryBlue,
+              //     shape: CircleBorder(
+              //       side: BorderSide(
+              //         color: borderColor,
+              //         width: 2.5,
+              //       ),
+              //     ),
+              //   ),
+              //   onPressed: () {},
+              //   child: Icon(
+              //     Icons.check,
+              //     size: 25,
+              //     color: textColor,
+              //   ),
+              // ),
             ],
           ),
         ),

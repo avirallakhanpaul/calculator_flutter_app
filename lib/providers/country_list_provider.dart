@@ -31,9 +31,15 @@ class CountryListProvider extends ChangeNotifier {
           key: key,
           name: value["name"],
           code: value["currencyId"],
+          currencyName: value["currencyName"],
+          currencySymbol: value["currencySymbol"],
           flagUrl: "https://www.countryflags.io/$key/flat/64.png",
         ),
       );
+    });
+
+    _countries.sort((a, b) {
+      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
     });
 
     print("Countries:- ${_countries.length}");

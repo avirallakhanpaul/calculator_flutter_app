@@ -26,7 +26,6 @@ class CalculatorScreen extends StatelessWidget {
             ? darkAppBackgroundBlack
             : lightAppBackgroundWhite,
             elevation: 0.0,
-            // toolbarHeight: 60,
             actions: [
               Expanded(
                 child: Row(
@@ -41,8 +40,8 @@ class CalculatorScreen extends StatelessWidget {
                             children: <Widget>[
                               IconButton(
                                 icon: Icon(
-                                  Icons.calculate_outlined,
-                                  size: 35,
+                                  Icons.calculate_rounded,
+                                  size: 32,
                                   color: theme.isDarkTheme
                                   ? darkPrimaryBlue
                                   : lightPrimaryBlue,

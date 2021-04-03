@@ -17,34 +17,67 @@ class CurrencyCalculatorProvider with ChangeNotifier {
   String _toCountryFlagUri = "https://www.countryflags.io/in/flat/64.png";
   String get toCountryFlagUri => _toCountryFlagUri;
 
-  void setFromCountryCode(String countryCurrCode, String countryKey) {
+  String _value = "";
+  String get value => _value;
+
+  String _fromVal = "";
+  String get fromVal => _fromVal;
+
+  void setFromCountryCode(String countryCurrCode, {String countryKey}) {
     _fromCountry = countryCurrCode;
     _fromCountryFlagUri = "https://www.countryflags.io/$countryKey/flat/64.png";
+
+    if(_fromVal.isNotEmpty && _fromCountry != _toCountry) {
+      calculateConversionValue();
+    }
     notifyListeners();
   }
 
-  void setToCountryCode(String countryCurrCode, String countryKey) {
+  void setToCountryCode(String countryCurrCode, {String countryKey}) {
     _toCountry = countryCurrCode;
     _toCountryFlagUri = "https://www.countryflags.io/$countryKey/flat/64.png";
+
+    if(_fromVal.isNotEmpty && _fromCountry != _toCountry) {
+      calculateConversionValue();
+    }
     notifyListeners();
   }
 
-  // void setFromCountryFlagUri(String cCode) {
-  //   _fromCountryFlagUri = "https://www.countryflags.io/$cCode/flat/64.png";
-  //   notifyListeners();
-  // }
+  void setFromVal(String val) {
+    _fromVal = val.trim();
+    notifyListeners();
+  }
 
-  // void setToCountryFlagUri(String cCode) {
-  //   _fromCountryFlagUri = "https://www.countryflags.io/$cCode/flat/64.png";
-  //   notifyListeners();
-  // }
+  void clearValues() {
+    _value = "";
+    _fromVal = "";
+    notifyListeners();
+  }
+
+  void switchCurrencyValues() {
+    var _tempFromCurr = _fromCountry;
+    var _tempFromCountryFlag = _fromCountryFlagUri;
+    setFromCountryCode(_toCountry);
+    _fromCountryFlagUri = _toCountryFlagUri;
+    setToCountryCode(_tempFromCurr);
+    _toCountryFlagUri = _tempFromCountryFlag;
+    calculateConversionValue();
+    notifyListeners();
+  }
 
   void calculateConversionValue() async {
 
-    final Uri uri = Uri.parse("https://free.currconv.com/api/v7/convert?q=${_fromCountry}_${_toCountry}&compact=ultra&apiKey=$apiKey");
+    final Uri uri = Uri.parse("https://free.currconv.com/api/v7/convert?q=${_fromCountry}_$_toCountry&compact=ultra&apiKey=$apiKey");
+    
+    print("Getting currency value...");
 
     final response = await http.get(uri);
     final responseBody = jsonDecode(response.body);
     print("Response Body: $responseBody");
+    print("Response Value: ${responseBody['${_fromCountry}_$_toCountry']}");
+    final currVal = double.parse("${responseBody['${_fromCountry}_$_toCountry']}");
+    _value = (currVal * double.parse(_fromVal)).toString();
+    print("Value: $_value");
+    notifyListeners();
   }
 }
