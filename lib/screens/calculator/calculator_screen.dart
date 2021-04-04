@@ -113,8 +113,8 @@ class CalculatorScreen extends StatelessWidget {
                     ? darkAppBackgroundBlack
                     : lightAppBackgroundWhite,
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(25),
-                      bottomRight: Radius.circular(25),
+                      // bottomLeft: Radius.circular(25),
+                      // bottomRight: Radius.circular(25),
                     ),
                   ),
                   child: Result(),
@@ -130,8 +130,8 @@ class CalculatorScreen extends StatelessWidget {
                   ? darkAppBackgroundBlack
                   : lightAppBackgroundWhite,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
+                    // topLeft: Radius.circular(25),
+                    // topRight: Radius.circular(25),
                   ),
                 ),
                 child: ButtonsGrid(),

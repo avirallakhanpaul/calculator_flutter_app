@@ -25,8 +25,6 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-  final textTheme = Theme.of(context).textTheme;
-
     return TextButton(
       style: TextButton.styleFrom(
         padding: EdgeInsets.all(0.0),
@@ -45,9 +43,11 @@ class Button extends StatelessWidget {
         ? btnIcon
         : Text(
           btnText,
-          style: textTheme.bodyText1.copyWith(
-            color: btnTextColor,
+          style: TextStyle(
+            fontFamily: "Nunito",
             fontSize: btnTextSize,
+            fontWeight: FontWeight.w700,
+            color: btnTextColor,
           ),
           textAlign: TextAlign.center,
         ),

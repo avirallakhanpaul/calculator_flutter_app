@@ -42,7 +42,6 @@ class CountryListScreen extends StatelessWidget {
             title: Text(
               "Countries",
               style: TextStyle(
-                fontFamily: "Vega",
                 fontSize: 20,
                 color: theme.isDarkTheme 
                 ? darkSecondaryGrey
@@ -71,46 +70,52 @@ class CountryListScreen extends StatelessWidget {
           body: ListView.builder(
             itemCount: countryProvider.countries.length,
             itemBuilder: (BuildContext ctx, int index) {
-              return ListTile(
-                onTap: () {
-                  countrySelected(countryProvider.countries[index]);
-                },
-                leading: Container(
-                  child: Image(
-                    image: NetworkImage("${countriesData[index].flagUrl}"),
-                    fit: BoxFit.cover,
-                    alignment: Alignment.center,
-                    width: 45,
-                  )
-                ),
-                title: Text(
-                  countriesData[index].name,
-                  style: TextStyle(
-                    fontFamily: "Vega",
-                    fontSize: 20,
-                    color: theme.isDarkTheme 
-                    ? darkSecondaryGrey
-                    : lightSecondaryBlack,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.6,
-                  ),
-                ),
-                subtitle: Row(
-                  children: <Widget>[
-                    Flexible(
-                      child: Text(
-                        "${countriesData[index].currencyName}\t(${countriesData[index].currencySymbol})",
-                        style: TextStyle(
-                          fontFamily: "Vega",
-                          fontSize: 16,
-                          color: theme.isDarkTheme 
-                          ? darkPrimaryBlue
-                          : lightSecondaryBlack,
-                        ),
+              return Column(
+                children: <Widget>[
+                  ListTile(
+                    onTap: () {
+                      countrySelected(countryProvider.countries[index]);
+                    },
+                    leading: Container(
+                      child: Image(
+                        image: NetworkImage("${countriesData[index].flagUrl}"),
+                        fit: BoxFit.cover,
+                        alignment: Alignment.center,
+                        width: 45,
+                      )
+                    ),
+                    title: Text(
+                      countriesData[index].name,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: theme.isDarkTheme 
+                        ? darkSecondaryGrey
+                        : lightSecondaryBlack,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.6,
                       ),
                     ),
-                  ],
-                ),
+                    subtitle: Row(
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            "${countriesData[index].currencyName}\t(${countriesData[index].currencySymbol})",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: theme.isDarkTheme 
+                              ? darkPrimaryBlue
+                              : lightSecondaryBlack,
+                              letterSpacing: 0.6,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
               );
             },
           ),

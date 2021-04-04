@@ -55,10 +55,6 @@ class _CurrencyInputState extends State<CurrencyInput> {
       borderColor = Colors.white;
     }
 
-    // if(selectedCountry.flagUrl == null && widget.isFromCountry) {
-    //   selectedCountry.flagUrl = "https://www.countryflags.io/us/flat/64.png";
-    // }
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -135,7 +131,7 @@ class _CurrencyInputState extends State<CurrencyInput> {
                   if(widget.isDesiredCurr) {
                     _currencyTextController.text = currCalc.value;
                   } else {
-                    _currencyTextController.text = currCalc.fromVal;
+                    // _currencyTextController.text = currCalc.fromVal;
                   }
                   return Expanded(
                     child: TextField(
@@ -155,8 +151,8 @@ class _CurrencyInputState extends State<CurrencyInput> {
                       maxLines: 1,
                       showCursor: true,
                       style: TextStyle(
-                        fontFamily: "Viga",
                         fontSize: 48,
+                        fontWeight: FontWeight.w700,
                         color: textColor,
                       ),
                       decoration: InputDecoration(

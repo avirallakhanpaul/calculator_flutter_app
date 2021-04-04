@@ -32,7 +32,7 @@ class _ResultState extends State<Result> {
           Text(
             calcProvider.question,
             style: TextStyle(
-              fontSize: 32,
+              fontSize: 36,
               color: themeProvider.isDarkTheme
               ? darkSecondaryGrey
               : lightSecondaryBlack,
@@ -43,6 +43,7 @@ class _ResultState extends State<Result> {
           : Text(
             calcProvider.answer,
             style: TextStyle(
+              fontWeight: FontWeight.w700,
               fontSize: 42,
               color: lightPrimaryBlue,
             ),

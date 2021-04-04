@@ -40,20 +40,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          fontFamily: "Viga",
-          textTheme: TextTheme(
-            bodyText1: TextStyle(
-              fontSize: 42,
-              // color: themeProvider.isDarkTheme
-              // ? darkSecondaryGrey
-              // : lightSecondaryBlack,
-            ),
-            bodyText2: TextStyle(
-              // color: themeProvider.isDarkTheme 
-              // ? darkPrimaryBlue
-              // : lightPrimaryBlue,
-            ),
-          ), 
+          fontFamily: "Nunito",
         ),
         debugShowCheckedModeBanner: false,
         routes: {
