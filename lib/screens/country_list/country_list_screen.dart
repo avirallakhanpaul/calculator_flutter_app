@@ -1,3 +1,4 @@
+import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
@@ -11,6 +12,7 @@ import 'package:calculator_app/screens/currency_converter/currency_converter_scr
 class CountryListScreen extends StatelessWidget {
 
   static const routeName = "/countriesList";
+  ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,57 +69,68 @@ class CountryListScreen extends StatelessWidget {
           backgroundColor: theme.isDarkTheme 
           ? darkAppBackgroundBlack
           : lightAppBackgroundWhite,
-          body: ListView.builder(
-            itemCount: countryProvider.countries.length,
-            itemBuilder: (BuildContext ctx, int index) {
-              return Column(
-                children: <Widget>[
-                  ListTile(
-                    onTap: () {
-                      countrySelected(countryProvider.countries[index]);
-                    },
-                    leading: Container(
-                      child: Image(
-                        image: NetworkImage("${countriesData[index].flagUrl}"),
-                        fit: BoxFit.cover,
-                        alignment: Alignment.center,
-                        width: 45,
-                      )
-                    ),
-                    title: Text(
-                      countriesData[index].name,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: theme.isDarkTheme 
-                        ? darkSecondaryGrey
-                        : lightSecondaryBlack,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.6,
+          body: DraggableScrollbar.semicircle(
+            // labelTextBuilder: (double offset) {
+            //   return Text("");
+            // },
+            backgroundColor: theme.isDarkTheme
+            ? darkSecondaryGrey
+            : lightSecondaryBlack,
+            heightScrollThumb: 40,
+            controller: _scrollController,
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: countryProvider.countries.length,
+              itemBuilder: (BuildContext ctx, int index) {
+                return Column(
+                  children: <Widget>[
+                    ListTile(
+                      onTap: () {
+                        countrySelected(countryProvider.countries[index]);
+                      },
+                      leading: Container(
+                        child: Image(
+                          image: NetworkImage("${countriesData[index].flagUrl}"),
+                          fit: BoxFit.cover,
+                          alignment: Alignment.center,
+                          width: 45,
+                        )
                       ),
-                    ),
-                    subtitle: Row(
-                      children: <Widget>[
-                        Flexible(
-                          child: Text(
-                            "${countriesData[index].currencyName}\t(${countriesData[index].currencySymbol})",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: theme.isDarkTheme 
-                              ? darkPrimaryBlue
-                              : lightSecondaryBlack,
-                              letterSpacing: 0.6,
+                      title: Text(
+                        countriesData[index].name,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: theme.isDarkTheme 
+                          ? darkSecondaryGrey
+                          : lightSecondaryBlack,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.6,
+                        ),
+                      ),
+                      subtitle: Row(
+                        children: <Widget>[
+                          Flexible(
+                            child: Text(
+                              "${countriesData[index].currencyName}\t(${countriesData[index].currencySymbol})",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: theme.isDarkTheme 
+                                ? darkPrimaryBlue
+                                : lightSecondaryBlack,
+                                letterSpacing: 0.6,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
-              );
-            },
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         );
       }

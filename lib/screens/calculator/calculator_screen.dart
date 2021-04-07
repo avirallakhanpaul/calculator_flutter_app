@@ -120,9 +120,9 @@ class CalculatorScreen extends StatelessWidget {
                   child: Result(),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              // SizedBox(
+              //   height: 20,
+              // ),
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(

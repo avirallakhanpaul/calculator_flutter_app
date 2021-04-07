@@ -107,9 +107,9 @@ class ButtonsGrid extends StatelessWidget {
             } else if(isOp) { // All Operators
               return Button(
                 btnText: buttons[index],
-                btnColor: theme.isDarkTheme
-                ? darkTertiaryGrey
-                : lightTertiaryGrey,
+                // btnColor: theme.isDarkTheme
+                // ? darkTertiaryGrey
+                // : lightTertiaryGrey,
                 btnTextColor: theme.isDarkTheme
                 ? darkPrimaryBlue
                 : lightPrimaryBlue,

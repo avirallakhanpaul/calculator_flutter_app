@@ -30,9 +30,97 @@ class _CurrencyConverterScreenState extends State<CurrencyConverterScreen> {
 
     final Size mediaQuerySize = MediaQuery.of(context).size;
     final currCalcProvider = Provider.of<CurrencyCalculatorProvider>(context);
+    final countryListProvider = Provider.of<CountryListProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     bool isDesiredCurrency = true;
     Color containerColor;
+    
+    AppBar appBar = AppBar(
+      brightness: themeProvider.isDarkTheme 
+      ? Brightness.dark
+      : Brightness.light,
+      backgroundColor: themeProvider.isDarkTheme 
+      ? darkAppBackgroundBlack
+      : lightAppBackgroundWhite,
+      elevation: 0.0,
+      actions: [
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        Icons.calculate_outlined,
+                        size: 35,
+                        color: themeProvider.isDarkTheme
+                        ? darkSecondaryGrey
+                        : lightSecondaryBlack,
+                      ),
+                      splashRadius: 28,
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed(CalculatorScreen.routeName);
+                      },
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            Icons.attach_money,
+                            size: 30,
+                            color: themeProvider.isDarkTheme
+                            ? darkPrimaryBlue
+                            : lightPrimaryBlue,
+                          ),
+                          splashRadius: 28,
+                          onPressed: () {},
+                        ),
+                        Container(
+                          width: 30,
+                          height: 2,
+                          color: themeProvider.isDarkTheme
+                          ? darkPrimaryBlue
+                          : lightPrimaryBlue,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                icon: themeProvider.isDarkTheme
+                ? SvgPicture.asset(
+                  "assets/icons/moon_fill.svg",
+                  color: darkSecondaryGrey,
+                  fit: BoxFit.cover,
+                  width: 25
+                )
+                : SvgPicture.asset(
+                  "assets/icons/moon_outline.svg",
+                  color: lightSecondaryBlack,
+                  fit: BoxFit.cover,
+                  width: 25,
+                ),
+                splashRadius: 28,
+                onPressed: themeProvider.toggleTheme,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+    final appBarHeight = appBar.preferredSize.height;
 
     return Consumer<ThemeProvider>(
       builder: (ctx, theme, _) {
@@ -52,88 +140,7 @@ class _CurrencyConverterScreenState extends State<CurrencyConverterScreen> {
           },
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              brightness: theme.isDarkTheme 
-              ? Brightness.dark
-              : Brightness.light,
-              backgroundColor: theme.isDarkTheme 
-              ? darkAppBackgroundBlack
-              : lightAppBackgroundWhite,
-              elevation: 0.0,
-              actions: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(
-                                Icons.calculate_outlined,
-                                size: 35,
-                                color: theme.isDarkTheme
-                                ? darkSecondaryGrey
-                                : lightSecondaryBlack,
-                              ),
-                              splashRadius: 28,
-                              onPressed: () {
-                                Navigator.of(context).pushReplacementNamed(CalculatorScreen.routeName);
-                              },
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.attach_money,
-                                    size: 30,
-                                    color: theme.isDarkTheme
-                                    ? darkPrimaryBlue
-                                    : lightPrimaryBlue,
-                                  ),
-                                  splashRadius: 28,
-                                  onPressed: () {},
-                                ),
-                                Container(
-                                  width: 30,
-                                  height: 2,
-                                  color: theme.isDarkTheme
-                                  ? darkPrimaryBlue
-                                  : lightPrimaryBlue,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      IconButton(
-                        icon: theme.isDarkTheme
-                        ? SvgPicture.asset(
-                          "assets/icons/moon_fill.svg",
-                          color: darkSecondaryGrey,
-                          fit: BoxFit.cover,
-                          width: 25
-                        )
-                        : SvgPicture.asset(
-                          "assets/icons/moon_outline.svg",
-                          color: lightSecondaryBlack,
-                          fit: BoxFit.cover,
-                          width: 25,
-                        ),
-                        splashRadius: 28,
-                        onPressed: theme.toggleTheme,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            appBar: appBar,
             backgroundColor: theme.isDarkTheme
             ? darkOverallBackgroundBlue
             : lightOverallBackgroundBlue,
@@ -180,8 +187,8 @@ class _CurrencyConverterScreenState extends State<CurrencyConverterScreen> {
                   ],
                 ),
                 Positioned(
-                  left: mediaQuerySize.width / 2.8,
-                  top: mediaQuerySize.height / 2.9,
+                  left: (mediaQuerySize.width / 2) - 62,
+                  top: (mediaQuerySize.height / 2) - statusBarHeight - appBarHeight - 21,
                   child: ElevatedButton(
                     onPressed: () {
                       currCalcProvider.calculateConversionValue();

@@ -23,6 +23,7 @@ class _CurrencyInputState extends State<CurrencyInput> {
   Country selectedCountry;
 
   final TextEditingController _currencyTextController = TextEditingController();
+  var flag = true;
 
   @override
   void dispose() {
@@ -41,6 +42,9 @@ class _CurrencyInputState extends State<CurrencyInput> {
     // ignore: unused_local_variable
     Color borderColor = darkPrimaryBlue;
 
+    // var flag = false;
+    // print(flag);
+
     if(!themeProvider.isDarkTheme && !widget.isDesiredCurr) {
       textColor = lightSecondaryBlack;
       borderColor = lightPrimaryBlue;
@@ -53,6 +57,19 @@ class _CurrencyInputState extends State<CurrencyInput> {
       borderColor = Colors.white;
     } else if(themeProvider.isDarkTheme && widget.isDesiredCurr) {
       borderColor = Colors.white;
+    }
+
+    void calculate() {
+      if(_currencyTextController.value != null) {
+        currencyCalculatorProvider.calculateConversionValue();
+      } else {
+        return;
+      }
+    }
+
+    if(flag) {
+      _currencyTextController.text = currencyCalculatorProvider.fromVal;
+      flag = false;
     }
 
     return Column(
@@ -104,7 +121,6 @@ class _CurrencyInputState extends State<CurrencyInput> {
                   ? currencyCalculatorProvider.fromCountry
                   : currencyCalculatorProvider.toCountry,
                   style: TextStyle(
-                    fontFamily: "Viga",
                     fontSize: 24,
                     color: textColor,
                   ),
@@ -130,19 +146,21 @@ class _CurrencyInputState extends State<CurrencyInput> {
                 builder: (ctx, currCalc, child) {
                   if(widget.isDesiredCurr) {
                     _currencyTextController.text = currCalc.value;
-                  } else {
-                    // _currencyTextController.text = currCalc.fromVal;
-                  }
+                  } 
+                  // else {
+                  //   _currencyTextController.text = currCalc.fromVal;
+                  // }
                   return Expanded(
                     child: TextField(
                       keyboardType: TextInputType.numberWithOptions(decimal: true),
+
                       onChanged: (_) {
                         print(_currencyTextController.text);
                         currCalc.setFromVal(_currencyTextController.text);
                       },
                       onSubmitted: (val) {
                         print("Submitted Val: $val");
-                        currCalc.calculateConversionValue();
+                        calculate();
                       },
                       readOnly: widget.isDesiredCurr
                       ? true
