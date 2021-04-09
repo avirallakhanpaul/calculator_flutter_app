@@ -23,13 +23,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  connectivity: ^3.0.3
   cupertino_icons: ^1.0.0
+  draggable_scrollbar: ^0.1.0
   flutter_svg: ^0.19.3
   http: ^0.13.1
+  intl: ^0.17.0
   math_expressions: ^2.0.2
   provider: ^5.0.0
   shared_preferences: ^2.0.5
-  draggable_scrollbar: ^0.1.0
+  page_transition: ^1.1.7+6
+  feature_discovery: ^0.14.0
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +54,8 @@ flutter:
     - assets/icons/moon_fill.svg
     - assets/icons/moon_outline.svg
     - assets/icons/arrow.svg
+    - assets/icons/wifi-off.svg
+    - assets/icons/wireless-error.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

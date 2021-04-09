@@ -1,3 +1,4 @@
+import 'package:feature_discovery/feature_discovery.dart';
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:provider/provider.dart";
@@ -9,7 +10,6 @@ import 'providers/theme_provider.dart';
 import 'screens/country_list/country_list_screen.dart';
 import 'screens/currency_converter/currency_converter_screen.dart';
 import 'screens/calculator/calculator_screen.dart';
-import 'root_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +48,10 @@ class MyApp extends StatelessWidget {
           CurrencyConverterScreen.routeName: (context) => CurrencyConverterScreen(),
           CountryListScreen.routeName: (context) => CountryListScreen(),
         },
-        home: RootPage(),
+        home: FeatureDiscovery(
+          recordStepsInSharedPreferences: true,
+          child: CalculatorScreen(),
+        ),
       ),
     );
   }

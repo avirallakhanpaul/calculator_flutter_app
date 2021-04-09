@@ -22,7 +22,7 @@ class CurrencyCalculatorProvider with ChangeNotifier {
 
   String _fromVal = "";
   String get fromVal => _fromVal;
-
+  
   void setFromCountryCode(String countryCurrCode, {String countryKey}) {
     _fromCountry = countryCurrCode;
     _fromCountryFlagUri = "https://www.countryflags.io/$countryKey/flat/64.png";
@@ -66,6 +66,14 @@ class CurrencyCalculatorProvider with ChangeNotifier {
   }
 
   void calculateConversionValue() async {
+
+    print("fromCountry: $_fromCountry");
+    print("toCountry: $_toCountry");
+    print("fromVal: $_fromVal");
+
+    if(_fromVal == null || _fromVal.isEmpty) {
+      return;
+    }
 
     final Uri uri = Uri.parse("https://free.currconv.com/api/v7/convert?q=${_fromCountry}_$_toCountry&compact=ultra&apiKey=$apiKey");
     

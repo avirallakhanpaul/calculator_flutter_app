@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+import "package:page_transition/page_transition.dart";
 
 import '../../../providers/currency_calculator_provider.dart';
 import '../../../providers/theme_provider.dart';
@@ -38,12 +39,11 @@ class _CurrencyInputState extends State<CurrencyInput> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final Size mediaQuerySize = MediaQuery.of(context).size;
 
+    // final numberFormatter = NumberFormat("#,###");s
+
     Color textColor = Colors.white;
     // ignore: unused_local_variable
     Color borderColor = darkPrimaryBlue;
-
-    // var flag = false;
-    // print(flag);
 
     if(!themeProvider.isDarkTheme && !widget.isDesiredCurr) {
       textColor = lightSecondaryBlack;
@@ -69,6 +69,7 @@ class _CurrencyInputState extends State<CurrencyInput> {
 
     if(flag) {
       _currencyTextController.text = currencyCalculatorProvider.fromVal;
+      // _currencyTextController.text = numberFormatter.format(12334566);
       flag = false;
     }
 
@@ -81,10 +82,22 @@ class _CurrencyInputState extends State<CurrencyInput> {
           width: mediaQuerySize.width * 0.4,
           child: InkWell(
             onTap: () async {
-              Navigator.of(context).pushReplacementNamed(
-                CountryListScreen.routeName,
-                arguments: widget.isFromCountry,
+              Navigator.push(
+                context, 
+                PageTransition(
+                  ctx: context,
+                  child: CountryListScreen(),
+                  settings: RouteSettings(
+                    arguments: widget.isFromCountry,
+                  ),
+                  type: PageTransitionType.bottomToTop,
+                  duration: Duration(milliseconds: 300),
+                ),
               );
+              // Navigator.of(context).pushNamed(
+              //   CountryListScreen.routeName,
+              //   arguments: widget.isFromCountry,
+              // );
               // selectedCountry = await Navigator.pushNamed(context, CountryListScreen.routeName);
               // if(selectedCountry == null) {
               //   return;

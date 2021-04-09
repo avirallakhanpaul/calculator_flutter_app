@@ -1,18 +1,17 @@
-import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 
 import '../../providers/country_list_provider.dart';
-import 'package:calculator_app/providers/currency_calculator_provider.dart';
-import 'package:calculator_app/providers/theme_provider.dart';
-import "package:calculator_app/models/country.dart";
+import '../../providers/currency_calculator_provider.dart';
+import '../../providers/theme_provider.dart';
+import "../../models/country.dart";
 import '../../custom/custom_colors.dart';
-import 'package:calculator_app/screens/currency_converter/currency_converter_screen.dart';
 
 class CountryListScreen extends StatelessWidget {
 
   static const routeName = "/countriesList";
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +29,11 @@ class CountryListScreen extends StatelessWidget {
         countryKey: country.key
       )
       : currencyCalcProvider.setToCountryCode(
-        country.code, 
+        country.code,
         countryKey: country.key
       );
-      Navigator.of(context).pushReplacementNamed(CurrencyConverterScreen.routeName);
+      Navigator.of(context).pop();
+      // Navigator.of(context).pushReplacementNamed(CurrencyConverterScreen.routeName);
     }
 
     return Consumer<ThemeProvider>(
@@ -56,14 +56,24 @@ class CountryListScreen extends StatelessWidget {
             backgroundColor: theme.isDarkTheme 
             ? darkAppBackgroundBlack
             : lightAppBackgroundWhite,
-            leading: IconButton(
-              onPressed: () => Navigator.of(context).pushReplacementNamed(CurrencyConverterScreen.routeName),
-              icon: Icon(
-                Icons.arrow_back_rounded,
-                color: theme.isDarkTheme 
-                ? darkSecondaryGrey
-                : lightSecondaryBlack,
-              ),
+            // leading: IconButton(
+            //   onPressed: () => Navigator.of(context).pushReplacementNamed(CurrencyConverterScreen.routeName),
+            //   icon: Icon(
+            //     Icons.arrow_back_rounded,
+            //     color: theme.isDarkTheme 
+            //     ? darkSecondaryGrey
+            //     : lightSecondaryBlack,
+            //   ),
+            // ),
+            actionsIconTheme: IconThemeData(
+              color: theme.isDarkTheme
+              ? Colors.white
+              : Colors.black,
+            ),
+            iconTheme: IconThemeData(
+              color: theme.isDarkTheme
+              ? darkSecondaryGrey
+              : lightSecondaryBlack,
             ),
           ),
           backgroundColor: theme.isDarkTheme 
@@ -76,7 +86,7 @@ class CountryListScreen extends StatelessWidget {
             backgroundColor: theme.isDarkTheme
             ? darkSecondaryGrey
             : lightSecondaryBlack,
-            heightScrollThumb: 40,
+            heightScrollThumb: 50,
             controller: _scrollController,
             child: ListView.builder(
               controller: _scrollController,

@@ -1,6 +1,8 @@
+import 'package:feature_discovery/feature_discovery.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../providers/theme_provider.dart';
 import '../currency_converter/currency_converter_screen.dart';
@@ -8,9 +10,29 @@ import '../../custom/custom_colors.dart';
 import 'buttons/buttons_grid.dart';
 import 'result_window/result.dart';
 
-class CalculatorScreen extends StatelessWidget {
+class CalculatorScreen extends StatefulWidget {
 
   static const routeName = "/calculator";
+
+  @override
+  _CalculatorScreenState createState() => _CalculatorScreenState();
+}
+
+class _CalculatorScreenState extends State<CalculatorScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      FeatureDiscovery.discoverFeatures(
+        context, 
+        [
+          "currency-converter-button",
+          "theme-toggle-button",
+        ],
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,24 +83,90 @@ class CalculatorScreen extends StatelessWidget {
                           SizedBox(
                             width: 15,
                           ),
-                          IconButton(
-                            icon: Icon(
+                          DescribedFeatureOverlay(
+                            featureId: "currency-converter-button",
+                            // backgroundColor: theme.isDarkTheme
+                            // ? darkPrimaryBlue
+                            // : lightPrimaryBlue,
+                            backgroundColor: Colors.blue,
+                            // backgroundDismissible: false,
+                            barrierDismissible: false,
+                            contentLocation: ContentLocation.below,
+                            overflowMode: OverflowMode.wrapBackground,
+                            title: Text(
+                              "Currency Converter",
+                              style: TextStyle(
+                                fontFamily: "Nunito",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 22,
+                                letterSpacing: 0.6,
+                              ),
+                            ),
+                            tapTarget: Icon(
                               Icons.attach_money,
                               size: 30,
-                              color: theme.isDarkTheme
-                              ? darkSecondaryGrey
-                              : lightSecondaryBlack,
+                              color: lightPrimaryBlue,
                             ),
-                            splashRadius: 28,
-                            onPressed: () {
-                              Navigator.of(context).pushReplacementNamed(CurrencyConverterScreen.routeName);
-                            },
+                            targetColor: theme.isDarkTheme 
+                            ? darkAppBackgroundBlack
+                            : Colors.white,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.attach_money,
+                                size: 30,
+                                color: theme.isDarkTheme
+                                ? darkSecondaryGrey
+                                : lightSecondaryBlack,
+                              ),
+                              splashRadius: 28,
+                              onPressed: () {
+                                // Navigator.of(context).pushReplacementNamed(CurrencyConverterScreen.routeName);
+                                Navigator.pushReplacement(
+                                  context, 
+                                  PageTransition(
+                                    child: FeatureDiscovery(
+                                      child: CurrencyConverterScreen()
+                                    ),
+                                    type: PageTransitionType.rightToLeftWithFade,
+                                    ctx: context,
+                                    duration: Duration(milliseconds: 300),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    IconButton(
-                      icon: theme.isDarkTheme
+                    DescribedFeatureOverlay(
+                      featureId: "theme-toggle-button",
+                      // backgroundColor: theme.isDarkTheme
+                      // ? darkPrimaryBlue
+                      // : lightPrimaryBlue,
+                      backgroundColor: Colors.blue,
+                      // backgroundDismissible: false,
+                      barrierDismissible: false,
+                      contentLocation: ContentLocation.below,
+                      overflowMode: OverflowMode.clipContent,
+                      title: Text(
+                        "Theme Toggle",
+                        style: TextStyle(
+                          fontFamily: "Nunito",
+                          fontWeight: FontWeight.w700,
+                          fontSize: 22,
+                          letterSpacing: 0.6,
+                        ),
+                      ),
+                      description: Text(
+                        "Light/Dark Mode",
+                        style: TextStyle(
+                          fontFamily: "Nunito",
+                          // fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          letterSpacing: 0.4,
+                        ),
+                      ),
+                      tapTarget: theme.isDarkTheme
                       ? SvgPicture.asset(
                         "assets/icons/moon_fill.svg",
                         color: darkSecondaryGrey,
@@ -91,8 +179,26 @@ class CalculatorScreen extends StatelessWidget {
                         fit: BoxFit.cover,
                         width: 25,
                       ),
-                      splashRadius: 28,
-                      onPressed: theme.toggleTheme,
+                      targetColor: theme.isDarkTheme 
+                      ? darkAppBackgroundBlack
+                      : Colors.white,
+                      child: IconButton(
+                        icon: theme.isDarkTheme
+                        ? SvgPicture.asset(
+                          "assets/icons/moon_fill.svg",
+                          color: darkSecondaryGrey,
+                          fit: BoxFit.cover,
+                          width: 25
+                        )
+                        : SvgPicture.asset(
+                          "assets/icons/moon_outline.svg",
+                          color: lightSecondaryBlack,
+                          fit: BoxFit.cover,
+                          width: 25,
+                        ),
+                        splashRadius: 28,
+                        onPressed: theme.toggleTheme,
+                      ),
                     ),
                   ],
                 ),
