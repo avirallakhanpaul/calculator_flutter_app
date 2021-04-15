@@ -21,6 +21,10 @@ class CalcExpressionProvider extends ChangeNotifier {
     //     isBracket = false;
     //   }
     // }
+     
+    if((key == "x" || key == "/" || key == "+" || key == "-" || key == "^") && (question.endsWith("x") || question.endsWith("/") || question.endsWith("+") || question.endsWith("-") || question.endsWith("^") || answer.endsWith("x") || answer.endsWith("/") || answer.endsWith("+") || answer.endsWith("-") || answer.endsWith("^"))) {
+      return;
+    }
 
     if(answer != "" && flag) {
       question = answer + key;
